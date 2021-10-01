@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SpotifyWebApp.Data.Spotify.APIResponsemodels;
 using System.Threading.Tasks;
 
 namespace SpotifyWebApp.Data.Spotify
@@ -9,5 +7,8 @@ namespace SpotifyWebApp.Data.Spotify
     {
         Task Play();
         Task Pause();
+        Task NextSong();
+        Task PreviousSong();
+        Task<CurrentSongModel> GetCurrentSongPlayingForUser();
     }
 }

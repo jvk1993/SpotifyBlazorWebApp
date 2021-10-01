@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MudBlazor.Services;
 using SpotifyWebApp.Data;
 using SpotifyWebApp.Data.Spotify;
-using SpotifyWebApp.Data.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,11 +33,11 @@ namespace SpotifyWebApp
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<ISpotifyService, SpotifyService>();
-            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<ISpotifyAuthService, SpotifyAuthService>();
             services.AddHttpClient<ISpotifyAuthService, SpotifyAuthService>();
             services.AddHttpClient<ISpotifyService, SpotifyService>();
             services.AddBlazoredLocalStorage();
+            services.AddMudServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

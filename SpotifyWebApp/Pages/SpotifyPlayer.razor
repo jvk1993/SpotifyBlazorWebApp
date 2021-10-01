@@ -1,16 +1,43 @@
 ﻿@page "/SpotifyPlayer"
 @using SpotifyWebApp.Data.Spotify
+@using SpotifyWebApp.Data.Spotify.APIResponsemodels; 
 @inject ISpotifyService spotifyService
 <h3>Welkom bij de Spotify player</h3>
-<button @onclick="Play">Play</button>
-<button @onclick="Pause">Pause</button>
+<MudButton Style="margin-right:10px" Variant="Variant.Filled" Color="Color.Info" @onclick="PreviousSong"><MudIcon Icon="@Icons.Filled.SkipPrevious"></MudIcon></MudButton>
+@if (currentlyPlayingASong)
+{
+    <MudButton Style="margin-right:10px" Variant="Variant.Filled" Color="Color.Info" @onclick="Pause"><MudIcon Icon="@Icons.Filled.Pause"></MudIcon></MudButton>
+}
+else
+{
+    <MudButton Style="margin-right:10px" Variant="Variant.Filled" Color="Color.Info" @onclick="Play"><MudIcon Icon="@Icons.Filled.PlayArrow"></MudIcon></MudButton>
+}
+<MudButton Variant="Variant.Filled" Color="Color.Info" @onclick="NextSong"><MudIcon Icon="@Icons.Filled.SkipNext"></MudIcon></MudButton>
 @code {
+    private bool currentlyPlayingASong = false;
+    private CurrentSongModel currentSongModel;
+    protected override async Task OnInitializedAsync()
+    {
+        currentSongModel = await spotifyService.GetCurrentSongPlayingForUser();
+        currentlyPlayingASong = currentSongModel.IsPlaying;
+    }
+
     protected async Task Play()
     {
         await spotifyService.Play();
+        currentlyPlayingASong = true;
     }
     protected async Task Pause()
     {
         await spotifyService.Pause();
+        currentlyPlayingASong = false;
+    }
+    protected async Task PreviousSong()
+    {
+        await spotifyService.PreviousSong();
+    }
+    protected async Task NextSong()
+    {
+        await spotifyService.NextSong();
     }
 }
