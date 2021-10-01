@@ -1,0 +1,31 @@
+﻿@page "/callback"
+@using SpotifyWebApp.Data.Spotify
+@inject NavigationManager NavManager
+@inject ISpotifyAuthService SpotifyAuthService
+@using Microsoft.AspNetCore.WebUtilities;
+
+@if (result)
+{
+    <h3>Succesvol ingelogd!</h3>
+    <button @onclick="NavigateToWebPlayer">Ga naar webplayer</button>
+}
+
+@code {
+    private string authCode = "";
+    private bool result = false;
+    protected override async void OnInitialized()
+    {
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("code", out var codeFromUrl))
+        {
+
+            authCode = codeFromUrl;
+            result = await SpotifyAuthService.Login(authCode);
+            //NavManager.NavigateTo("SpotifyPlayer");
+        }
+    }
+    protected void NavigateToWebPlayer()
+    {
+        NavManager.NavigateTo("SpotifyPlayer");
+    }
+}

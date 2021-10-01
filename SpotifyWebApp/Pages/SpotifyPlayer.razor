@@ -1,0 +1,16 @@
+﻿@page "/SpotifyPlayer"
+@using SpotifyWebApp.Data.Spotify
+@inject ISpotifyService spotifyService
+<h3>Welkom bij de Spotify player</h3>
+<button @onclick="Play">Play</button>
+<button @onclick="Pause">Pause</button>
+@code {
+    protected async Task Play()
+    {
+        await spotifyService.Play();
+    }
+    protected async Task Pause()
+    {
+        await spotifyService.Pause();
+    }
+}
